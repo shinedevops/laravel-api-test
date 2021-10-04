@@ -49,7 +49,6 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
         <script>
-        const webUrl = {{config('app.api_url')}};
         $( document ).ready(function() {
             $("form[id='UserLoginForm']").submit(function(e) {
                 e.preventDefault();
@@ -71,6 +70,7 @@
                 submitHandler: async function(form) {
                     let email  = document.getElementById("email").value
                     button = document.getElementById("submitBtn")
+                    const webUrl = "{{config('app.api_url')}}";
                     
                     button.innerHTML = 'Sending <i class="fa fa-spinner" aria-hidden="true"></i>';
                     button.disabled = true;

@@ -82,7 +82,8 @@ header('Content-Type: application/octet-stream');
                     
                     button.innerHTML = 'Updating <i class="fa fa-spinner" aria-hidden="true"></i>';
                     button.disabled = true;
-                    fetch('http://localhost/shineDezign/portal-app/public/api/v1/update-request',{
+                    const webUrl = "{{config('app.api_url')}}";
+                    fetch(webUrl+'/api/v1/update-request',{
                         method: "post",
                         body: JSON.stringify({'id': rowId, 'email': email, 'uid': uid, 'token': token}),
                         headers : {'Content-Type': 'application/json'}
@@ -105,7 +106,7 @@ header('Content-Type: application/octet-stream');
             });
         });
         
-        const webUrl = {{config('app.api_url')}};
+        const webUrl = "{{config('app.api_url')}}";
         let uid  = document.getElementById("uid").value
         let token  = document.getElementById("token").value
         let url = webUrl+'/api/v1/login-check?uid='+uid+'&token='+token;
@@ -126,9 +127,7 @@ header('Content-Type: application/octet-stream');
         }
         
         function startTimer() {
-            console.log('start');
             timer = setInterval(function() { 
-            console.log('start in interval');
                 callme()
             }, 5000);
         }
