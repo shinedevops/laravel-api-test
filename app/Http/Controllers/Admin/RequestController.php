@@ -65,6 +65,7 @@ class RequestController extends Controller
                 $user = User::find($loginRequest->user_id);
                 $user->api_token = $uniqueId;
                 $user->expiry = $request->expiry;
+                $user->last_used_at = date('Y-m-d H:i:s');
                 $user->save();
             }
             return response()->json(['success' => true, 'message' => 'Request status has been approved successfully']);

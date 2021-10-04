@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Validator, Session ;
+use Validator, Session, DateTime;
 use App\Models\{User, LoginRequest}; 
 
 class UserController extends Controller
@@ -55,13 +55,16 @@ class UserController extends Controller
         }
         try {
             $user = User::where(['uid' => $request->uid, 'api_token' => $request->token, 'role' => 2])->first();
-            $start = strtotime($user->updated_at);
-            $end = strtotime(date('Y-m-d H:s:i'));
-            $mins = ($end - $start) / 60;
+            $mins = null;
+            if($user && $user->last_used_at){
+                $start = new DateTime($user->last_used_at);
+                $end = new DateTime(date('Y-m-d H:s:i'));
+                $mins = $start->diff($end);
+            }
             if($user && 1 != $user->status) {
                 return response()->json(['api_response' => 'error', 'status' => 200, 'message' => 'Your account has been suspended. Contact to administrator', 'data' => null]);
             }
-            elseif($user && 1 == $user->status &&  $user->expiry > $mins) {
+            elseif($user && 1 == $user->status &&  $mins && $user->expiry > $mins->i) {
                 return response()->json(['api_response' => 'success', 'status' => 200, 'message' => 'User fetched', 'data' => $user]);
             }
             return response()->json(['api_response' => 'error', 'status' => 200, 'message' => 'Oops! something went wrong. try again', 'data' => 'Oops! something went wrong. try again']);
@@ -88,10 +91,13 @@ class UserController extends Controller
         }
         try {
             $user = User::find($request->id);
-            $start = strtotime($user->updated_at);
-            $end = strtotime(date('Y-m-d H:s:i'));
-            $mins = ($end - $start) / 60;
-            if($request->uid == $user->uid && $request->token == $user->api_token &&  $user->expiry > $mins) {
+            $mins = null;
+            if($user && $user->last_used_at){
+                $start = new DateTime($user->last_used_at);
+                $end = new DateTime(date('Y-m-d H:s:i'));
+                $mins = $start->diff($end);
+            }
+            if($request->uid == $user->uid && $request->token == $user->api_token &&  $mins && $user->expiry > $mins->i) {
                 $user->email = $request->email;
                 $user->save();
                 return response()->json(['api_response' => 'success', 'status' => 200, 'message' => 'User Details updated', 'data' => $user]);
