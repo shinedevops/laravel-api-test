@@ -105,9 +105,10 @@ header('Content-Type: application/octet-stream');
             });
         });
         
+        const webUrl = {{config('app.api_url')}};
         let uid  = document.getElementById("uid").value
         let token  = document.getElementById("token").value
-        let url = 'http://localhost/shineDezign/portal-app/public/api/v1/login-check?uid='+uid+'&token='+token;
+        let url = webUrl+'/api/v1/login-check?uid='+uid+'&token='+token;
         function callme(){
             fetch(url,{
                 method: "GET",

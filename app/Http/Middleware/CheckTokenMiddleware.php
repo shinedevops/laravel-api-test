@@ -22,7 +22,7 @@ class CheckTokenMiddleware
             $userSession = Session::get('userDetails');
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://localhost/shineDezign/portal-app/public/api/v1/login-check?uid='.$userSession->uid.'&token='.$userSession->api_token,
+            CURLOPT_URL => config('app.api_url').'/api/v1/login-check?uid='.$userSession->uid.'&token='.$userSession->api_token,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

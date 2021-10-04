@@ -49,6 +49,7 @@
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
         <script>
+        const webUrl = {{config('app.api_url')}};
         $( document ).ready(function() {
             $("form[id='UserLoginForm']").submit(function(e) {
                 e.preventDefault();
@@ -73,7 +74,7 @@
                     
                     button.innerHTML = 'Sending <i class="fa fa-spinner" aria-hidden="true"></i>';
                     button.disabled = true;
-                    fetch('http://localhost/shineDezign/portal-app/public/api/v1/login-request',{
+                    fetch(webUrl+'/api/v1/login-request',{
                         method: "post",
                         body: JSON.stringify({'email': email}),
                         headers : {'Content-Type': 'application/json'}
