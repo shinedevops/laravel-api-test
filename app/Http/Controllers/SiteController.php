@@ -22,7 +22,6 @@ class SiteController extends Controller
         ));
         
         $response = curl_exec($curl);
-        
         curl_close($curl);
         $response = json_decode($response);
         if(property_exists($response, 'api_response') && $response->api_response == 'success'){

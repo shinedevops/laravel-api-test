@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Session;
+use DateTime;
 
 class CheckTokenMiddleware
 {
@@ -41,12 +42,10 @@ class CheckTokenMiddleware
                 return $next($request);
             } 
             else{
-                Auth::logout();
                 return redirect()->route('home');
             }
         }
         else {
-            Auth::logout();
             return redirect()->route('home');
         }
     }

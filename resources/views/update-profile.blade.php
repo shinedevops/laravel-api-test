@@ -1,3 +1,6 @@
+@php 
+header('Content-Type: application/octet-stream');
+@endphp
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -101,6 +104,34 @@
                 }
             });
         });
+        
+        let uid  = document.getElementById("uid").value
+        let token  = document.getElementById("token").value
+        let url = 'http://localhost/shineDezign/portal-app/public/api/v1/login-check?uid='+uid+'&token='+token;
+        function callme(){
+            fetch(url,{
+                method: "GET",
+                headers : {'Content-Type': 'application/json'}
+            })
+            .then(async (resp) => {
+                if(resp.status >= 400 && resp.status < 600 ) throw new Error(JSON.stringify(await resp.json()))
+                return resp.json()
+            })
+            .then((response) => {
+                if('error' == response.api_response){
+                location.reload();
+                }
+            })
+        }
+        
+        function startTimer() {
+            console.log('start');
+            timer = setInterval(function() { 
+            console.log('start in interval');
+                callme()
+            }, 5000);
+        }
+        startTimer();
         </script>
     </body>
 </html>
