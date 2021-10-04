@@ -65,7 +65,7 @@ class UserController extends Controller
                 return response()->json(['api_response' => 'error', 'status' => 200, 'message' => 'Your account has been suspended. Contact to administrator', 'data' => null]);
             }
             elseif($user && 1 == $user->status &&  $mins && $user->expiry > $mins->i) {
-                return response()->json(['api_response' => 'success', 'status' => 200, 'message' => 'User fetched', 'data' => $user]);
+                return response()->json(['api_response' => 'success', 'status' => 200, 'message' => 'User fetched', 'data' => $user, 'mins' => $mins->i]);
             }
             return response()->json(['api_response' => 'error', 'status' => 200, 'message' => 'Oops! something went wrong. try again', 'data' => 'Oops! something went wrong. try again']);
         } catch ( \Exception $e ) {
